@@ -15,8 +15,9 @@ return new class extends Migration
     {
         Schema::create('super_users', function (Blueprint $table) {
             $table->id();
-            $table->string('name')->unique();
-            $table->string('passwerd');
+            $table->string('name');
+            $table->string('email');
+            $table->string('phone')->unique();
             $table->timestamps();
         });
     }

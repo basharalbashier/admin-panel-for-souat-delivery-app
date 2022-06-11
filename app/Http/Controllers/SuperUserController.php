@@ -26,14 +26,48 @@ class SuperUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function add(Request $request)
     {
         //
-        $request->validate([
+        $fields = $request->validate([
             'name'=>'required',
-            'passwerd'=>'required',
+            'email'=>'required',
+            'phone'=>'required',
         ]);
-        return SuperUser::create($request->all());
+
+
+        $check=SuperUser::where('phone', $fields['phone'])->first();
+      
+
+        if($check){
+
+            $token = $check->createToken('providerLogin')->plainTextToken;
+
+            $respons= [
+    
+                'super'=>$check,
+                'token'=>$token
+            ];
+    
+            return response($respons,201);
+
+
+        }else{
+            $super=  SuperUser::create($request->all());
+
+            $token= $super->createToken('super')->plainTextToken;
+           
+    
+            $respons= [
+    
+                'super'=>$super,
+                'token'=>$token
+    
+            ];
+           
+            return response($respons,201);
+        }
+       
     
 
     }
@@ -90,6 +124,6 @@ class SuperUserController extends Controller
     public function search($name)
     {
         //
-        return SuperUser::where('name', 'like', '%'.$name.'%')->get();
+        return SuperUser::where('name', 'like', '%'.$name.'%')->orWhere('phone', 'like', '%'.$name.'%')->orWhere('email', 'like', '%'.$name.'%')->get();
     }
 }

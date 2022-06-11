@@ -29,7 +29,9 @@ class OrdersController extends Controller
     {
         //
         $request->validate([
-            'user_id'=>'required',
+     
+            'user_name'=>'required',
+            'user_phone'=>'required',
             'start_address'=>'required',
             'start_late'=>'required',
             'start_longe'=>'required',
@@ -73,7 +75,11 @@ class OrdersController extends Controller
     public function update(Request $request, $id)
     {
         //
+        // $request->validate([
+        //     'status'=>'required',
 
+
+        // ]);
         $order = Order::find($id);
         $order->update($request->all());
         return $order;
@@ -101,5 +107,46 @@ class OrdersController extends Controller
     {
         //
         return Order::where('name', 'like', '%'.$name.'%')->get();
+    }
+
+            /**
+     * Search for phone 
+     *
+     * @param  str  $phone
+     * @return \Illuminate\Http\Response
+     */
+    public function my_orders($phone)
+    {
+        //
+        return Order::where('user_phone', '=' ,$phone)->get();
+    }
+
+                /**
+     * Search for phone 
+     *
+     * @param  str  $phone
+     * @return \Illuminate\Http\Response
+     */
+    public function getorders($phone)
+    {
+
+
+         
+        //
+        return Order::where([['car_type', '=' ,$phone],['status', '=' ,'0']])->get();
+    }
+
+
+
+                /**
+     * Search for phone 
+     *
+     * @param  str  $phone
+     * @return \Illuminate\Http\Response
+     */
+    public function dohaverunning($phone)
+    {
+        //
+        return Order::where('provider_phone', '=' ,$phone)->get();
     }
 }

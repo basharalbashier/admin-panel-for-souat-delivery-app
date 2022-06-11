@@ -12,7 +12,9 @@ class Order extends Model
 
     protected $fillable = [
 
-        'user_id',
+        'user_name',
+        'user_phone',
+        'user_comment',
         'start_address',
         'start_late',
         'start_longe',
@@ -24,8 +26,13 @@ class Order extends Model
         'distance',
         'status',
         'provider_id',
+        'provider_name',
+        'provider_phone',
+        'last_late',
+        'last_longe',
         'canceled_at',
         'end_at',
+        'admin_comment',
 
     ];
 }
