@@ -35,23 +35,30 @@ Route::post('/superuser/add',[SuperUserController::class,'add']);
 Route::get('/car',[CarController::class,'index']);
 Route::get('/cities',[CitiesController::class,'index']);
 Route::get('/lemo',[LemoController::class,'index']);
+Route::put('/orders/update/{id}',[OrdersController::class,'update']);
+
+
+
 
 Route::group(['middleware'=>['auth:sanctum']],function(){
+
+    Route::get('/orders',[OrdersController::class,'index']);
+    // Route::get('/orders/update/{id}',[OrdersController::class,'update']);
     Route::post('/orders/my_orders/{name}',[OrdersController::class, 'my_orders']);
-    // Route::post('/orders/provider_run/{name}',[OrdersController::class, 'dohaverunning']);
-    Route::post('/orders/getorders/{name}',[OrdersController::class, 'getorders']);
+    Route::post('/orders/provider_run/{name}',[OrdersController::class, 'dohaverunning']);
+    Route::post('/orders/free/{name}',[OrdersController::class, 'getorders']);
   
   
     Route::post('/provider/search/{name}',[ProvidersController::class, 'search']);
     Route::post('/orders/search/{name}',[OrdersController::class, 'search']);
     Route::post('/provider/account/{name}',[ProvidersController::class, 'account']);
+    Route::put('/provider/addlocation/{name}',[ProvidersController::class, 'update']);
     // // Route::resource('provcider',ProvidersController::class);
     Route::post('/lemo/add',[LemoController::class,'store']);
     Route::post('/car/add',[CarController::class,'store']);
     Route::post('/cities/add',[CitiesController::class,'store']);
     Route::get('/superuser/get',[SuperUserController::class,'index']);
     Route::post('/superuser/search/{name}',[SuperUserController::class, 'search']);
-    Route::resource('orders',OrdersController::class);
     // Route::resource('car',CarController::class);
     // Route::resource('cities',CitiesController::class);
     Route::resource('provider',ProvidersController::class);

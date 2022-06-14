@@ -112,11 +112,20 @@ class ProvidersController extends Controller
 
     public function login(Request $request){
         $fields =$request->validate([
-            'phone'=>'required'
+            'phone'=>'required',
+            'v'=>'required',
+
 
         ]);
+        if($fields['v']!='1.0.2'){
+            // auth()->user()->tokens->each(function($token, $key) {
+            //     $token->delete();
+            // });
+            $responsDeny= 'You need to update your app';
+            return response($responsDeny,202);
+        }
         $provider=Provier::where('phone', $fields['phone'])->first();
-
+          
         if(!$provider){
 
             return response(0);

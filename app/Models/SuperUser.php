@@ -4,7 +4,6 @@ namespace App\Models;
 use Illuminate\Notifications\Notifiable;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 class SuperUser extends Authenticatable
@@ -15,6 +14,7 @@ class SuperUser extends Authenticatable
         'name',
         'email',
         'phone',
+        'account',
 
     ];
 }

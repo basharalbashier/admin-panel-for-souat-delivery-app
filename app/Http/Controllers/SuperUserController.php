@@ -33,9 +33,16 @@ class SuperUserController extends Controller
             'name'=>'required',
             'email'=>'required',
             'phone'=>'required',
+            'v'=>'required'
         ]);
 
-
+        if($fields['v']!='1.0.2'){
+            // auth()->user()->tokens->each(function($token, $key) {
+            //     $token->delete();
+            // });
+            $responsDeny= 'You need to update your app';
+            return response($responsDeny,202);
+        }
         $check=SuperUser::where('phone', $fields['phone'])->first();
       
 

@@ -18,6 +18,7 @@ class Lemo extends Authenticatable
         'username',
         'phone',
         'password',
+        'palance',
         'blocked',
         'last_pay',
 

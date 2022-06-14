@@ -1,7 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Lemo;
 use App\Models\Order;
+use App\Models\Provier;
 use Illuminate\Http\Request;
 
 class OrdersController extends Controller
@@ -75,13 +78,41 @@ class OrdersController extends Controller
     public function update(Request $request, $id)
     {
         //
-        // $request->validate([
-        //     'status'=>'required',
+       $fields= $request->validate([
+            'status'=>'required',
 
 
-        // ]);
+        ]);
+        $status=$fields['status'];
         $order = Order::find($id);
+        if($status=='7'){
+          if($order['status']=='0'){
+            $order->update($request->all());
+            return $order;
+          }else{
+            return 'You need to be faster';
+          }
+            
+
+        }
+
         $order->update($request->all());
+     
+        if($status=='11'){
+            $driver = Provier::find($order['provider_id']);
+            $lemo = Lemo::find($driver['from']);
+
+            $palance = $lemo['palance'];
+            $palanceAfter= $palance- ($order['fee']*5/100) ;
+        //    $doit= $lemo->update(['palance'=>$persantag]);
+            if($palanceAfter<0){
+                $providers=   Provier::  where('from', '=' ,$lemo['id'])->update(['blocked'=>'1']);
+                return $providers;
+            }
+            
+           return $palanceAfter;
+
+        }
         return $order;
 
     }

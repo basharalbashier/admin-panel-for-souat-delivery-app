@@ -95,4 +95,57 @@ class LemoController extends Controller
         //
         return Lemo::where('name', 'like', '%'.$name.'%')->get();
     }
+    public function login(Request $request){ 
+
+ 
+        $fields =$request->validate([
+            'username'=>'required',
+            'password'=>'required'
+
+        ]);
+        $user=Lemo::where('username', $fields['username'])->where('password', $fields['password'])->first();
+
+        if(!$user){
+
+            return response(0);
+        }
+        $token = $user->createToken('lemologin')->plainTextToken;
+
+        $respons= [
+
+            'lemo'=>$user,
+            'token'=>$token
+        ];
+
+        return response($respons,201);
+
+
+    }
+
+
+
+
+
+
+    public function logout(Request $request){ 
+
+       auth()->user()->tokens->each(function($token, $key) {
+            $token->delete();
+        });
+
+        return 1;
+
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 }
